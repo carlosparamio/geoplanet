@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "geoplanet"
-  s.version  = "0.1.0"
+  s.version  = "0.1.1"
   s.date     = "2009-02-25"
   s.summary  = "A Ruby wrapper for the Yahoo! GeoPlanet API."
   s.email    = "carlosparamio@gmail.com"
