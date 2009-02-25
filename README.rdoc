@@ -11,10 +11,10 @@ but this version supports better usage of matrix and query parameters, uses JSON
   GeoPlanet.app_id = [Your App ID Here]
   
   # Search for places that matches "Springfield" (the API returns 1 by default)
-  Place.search("Springfield")
+  GeoPlanet::Place.search("Springfield")
   
   # Search for *all* places that matches "Springfield"
-  Place.search("Springfield", :count => 0)
+  GeoPlanet::Place.search("Springfield", :count => 0)
   
   # You can pass in any Matrix or Query parameters this way too
   # For more details see the following URLs:
@@ -24,38 +24,38 @@ but this version supports better usage of matrix and query parameters, uses JSON
 === Initializing by Where On Earth ID && Associations
   
   require 'geoplanet'
-  include GeoPlanet
   GeoPlanet.app_id = [Your App ID Here]
   
-  cmu = Place.new(23511275) # WoE ID for Carnegie Mellon University
+  a = GeoPlanet::Place.new(752067) # WoE ID for Algeciras
   
   # Everything you get back from the API you have direct access to
   # through the Place object. For example:
   
-  cmu.version          # "long"
-  cmu.placetype        # "Point of Interest"
-  cmu.placetype_code   # 20
-  cmu.admin1           # "Pennsylvania"
-	cmu.admin1_code      # "US-PA"
-	cmu.admin1_placetype # "State"
-  cmu.latitude         # 40.444
-                       # Latitude and Longitude are values at Centroid
-  cmu.bounding_box     # [[40.44445, -79.943314], [40.44355, -79.944511]]
-                       # Bounding box are NW / SE coordinates in array
-  cmu.admin2           # "Allegheny"
-	cmu.admin2_placetype # "County"
+  a.version          # "long"
+  a.placetype        # "Town"
+  a.placetype_code   # 7
+  a.admin1           # "Andalucia"
+	a.admin1_code      # "ES-AN"
+	a.admin1_placetype # "Autonomous Community"
+	a.admin2           # "Cadiz"
+	a.admin2_code      # ""
+	a.admin2_placetype # "Province"
+  a.latitude         # 36.127602
+                     # Latitude and Longitude are values at Centroid
+  a.bounding_box     # [[36.109779, -5.47725], [36.164268, -5.43527]]
+                     # Bounding box are SW / NE coordinates in array
   
   # We unlock the true power of GeoPlanet with association collections
   # Check out this truly amazing stuff:
   
-  # The containing GeoPlanet entity for CMU
-  cmu.parent # "Squirrel Hill North"
+  # A list of other towns in the area
+  a.siblings
   
-  # A list of other points of interest in the area
-  cmu.siblings.each{|s| puts s} 
-  
-  # A complete hierarchy, from country down to suburb
-  cmu.ancestors.each{|s| puts s} 
+  # A complete hierarchy, from country down to municipality
+  a.ancestors
+
+  # Postal Codes at Algeciras
+  a.children(:select => "long", :type => 11)
 
 == REQUIREMENTS:
 

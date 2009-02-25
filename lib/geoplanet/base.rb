@@ -11,7 +11,7 @@ module GeoPlanet
         raise ArgumentError if query_params[:appid].nil? || resource_name == 'places' && filters[:q].nil? # required
 
         q = ".q('#{filters[:q]}')" if filters[:q]
-        type = ".type(#{filters[:type].is_a?(Array) ? filters[:type].to_a.join(',') : filters[:type]})" if filters[:type]
+        type = ".type('#{filters[:type].is_a?(Array) ? filters[:type].to_a.join(',') : filters[:type]}')" if filters[:type]
         
         query_string = q && type ? "$and(#{q},#{type})" : "#{q}#{type}"
         
