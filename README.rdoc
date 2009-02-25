@@ -35,11 +35,11 @@ but this version supports better usage of matrix and query parameters, uses JSON
   a.placetype        # "Town"
   a.placetype_code   # 7
   a.admin1           # "Andalucia"
-	a.admin1_code      # "ES-AN"
-	a.admin1_placetype # "Autonomous Community"
-	a.admin2           # "Cadiz"
-	a.admin2_code      # ""
-	a.admin2_placetype # "Province"
+  a.admin1_code      # "ES-AN"
+  a.admin1_placetype # "Autonomous Community"
+  a.admin2           # "Cadiz"
+  a.admin2_code      # ""
+  a.admin2_placetype # "Province"
   a.latitude         # 36.127602
                      # Latitude and Longitude are values at Centroid
   a.bounding_box     # [[36.109779, -5.47725], [36.164268, -5.43527]]
