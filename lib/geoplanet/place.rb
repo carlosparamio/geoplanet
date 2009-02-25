@@ -102,6 +102,8 @@ module GeoPlanet
         return results['places']['place'].map{|attrs| Place.new attrs} if results['places']
         return Place.new(results['place']) if results['place']
         nil
+      rescue
+        nil
       end
     end
   end

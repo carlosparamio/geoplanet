@@ -56,6 +56,10 @@ but this version supports better usage of matrix and query parameters, uses JSON
 
   # Postal Codes at Algeciras
   a.children(:select => "long", :type => 11)
+  
+  # You can use multiple types on the same query.
+  # e.g. Country and Province for Algeciras
+  a.belongtos(:type => [12, 9])
 
 == REQUIREMENTS:
 
