@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors  = ["Carlos Paramio"]
   
   s.files    = [
-		"README",
+		"README.rdoc",
 		"geoplanet.gemspec", 
 		"lib/geoplanet.rb",
 		"lib/geoplanet/base.rb",
@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency("rest-client",   [">= 0.9"])
   s.add_dependency("json", [">= 1.1.3"])
   
-  s.has_rdoc = false
-  s.rdoc_options = ["--main", "README"]
+  s.has_rdoc = true
+  s.rdoc_options = ["--main", "README.rdoc"]
 end
