@@ -15,18 +15,22 @@ module GeoPlanet
     alias_method :lon, :longitude
 
     def initialize(woe_or_attrs)
-      attrs =
-        case woe_or_attrs
-        when Integer
-          url = self.class.build_url("place/#{woe_or_attrs}", :format => "json")
-          puts "Yahoo GeoPlanet: GET #{url}"
-          JSON.parse(RestClient.get(url))['place'] rescue nil
-        when Hash
-          woe_or_attrs
-        else
-          raise ArgumentError
-        end
-
+      case woe_or_attrs
+      when Integer then initialize_with_woe(woe_or_attrs)
+      when Hash    then initialize_with_attrs(woe_or_attrs)
+      else
+        raise ArgumentError
+      end
+    end
+    
+    def initialize_with_woe(woe)
+      url = self.class.build_url("place/#{woe}", :format => "json")
+      puts "Yahoo GeoPlanet: GET #{url}"
+      initialize_with_attrs JSON.parse(Place.get(url))['place']
+    end
+    
+    
+    def initialize_with_attrs(attrs)
       @version = attrs['centroid'] ? 'long' : 'short'
 
       # short
@@ -70,12 +74,9 @@ module GeoPlanet
     %w(parent ancestors belongtos neighbors siblings children).each do |association|
       self.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{association}(options = {})
-          url = self.class.build_url("place/\#{self.woeid}/#{association}", options.merge(:format => "json"))
+          url = Place.build_url("place/\#{self.woeid}/#{association}", options.merge(:format => "json"))
           puts "Yahoo GeoPlanet: GET \#{url}"
-          results = JSON.parse RestClient.get(url)
-          results['places']['place'].map{|r| Place.new(r)} rescue nil
-        rescue
-          raise GeoPlanet::Error
+          Place.get_then_parse(url)
         end
       RUBY
     end
@@ -90,12 +91,17 @@ module GeoPlanet
     
     class << self
       def search(text, options = {})
-        url = build_url('places', options.merge(:q => text, :format => "json"))
+        text = URI.encode(text)
+        url = build_url('places', options.merge(:q => text, :format => 'json'))
         puts "Yahoo GeoPlanet: GET #{url}"
-        results = JSON.parse RestClient.get(url)
-        results['places']['place'].map{|r| Place.new(r)} rescue nil
-      rescue
-        raise GeoPlanet::Error
+        get_then_parse(url)
+      end
+      
+      def get_then_parse(url)
+        results = JSON.parse get(url)
+        return results['places']['place'].map{|attrs| Place.new attrs} if results['places']
+        return Place.new(results['place']) if results['place']
+        nil
       end
     end
   end

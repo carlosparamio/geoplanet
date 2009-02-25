@@ -12,5 +12,7 @@ module GeoPlanet
     attr_accessor :appid
   end
 
-  class Error < StandardError; end
+  class BadRequest           < StandardError; end
+  class NotFound             < StandardError; end
+  class NotAcceptable        < StandardError; end
 end
