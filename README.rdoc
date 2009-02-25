@@ -69,7 +69,7 @@ Additionally, geoplanet has the following gem dependencies:
 
 == INSTALL:
 
-* gem install carlosparamiogeoplanet --source http://gems.github.com
+* gem install carlosparamio-geoplanet --source http://gems.github.com
 
 == LICENSE:
 
