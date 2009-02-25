@@ -60,6 +60,9 @@ but this version supports better usage of matrix and query parameters, uses JSON
   # You can use multiple types on the same query.
   # e.g. Country and Province for Algeciras
   a.belongtos(:type => [12, 9])
+  
+  # You can specify the language you want for the results.
+  a.belongtos(:type => 12, :lang => 'es_ES').first.name  # España
 
 == REQUIREMENTS:
 
