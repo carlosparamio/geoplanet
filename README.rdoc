@@ -8,7 +8,7 @@ but this version supports better usage of matrix and query parameters, uses JSON
 === Searching for a Location:
 
   require 'geoplanet'
-  GeoPlanet.app_id = [Your App ID Here]
+  GeoPlanet.appid = [Your App ID Here]
   
   # Search for places that matches "Springfield" (the API returns 1 by default)
   GeoPlanet::Place.search("Springfield")
@@ -24,7 +24,7 @@ but this version supports better usage of matrix and query parameters, uses JSON
 === Initializing by Where On Earth ID && Associations
   
   require 'geoplanet'
-  GeoPlanet.app_id = [Your App ID Here]
+  GeoPlanet.appid = [Your App ID Here]
   
   a = GeoPlanet::Place.new(752067) # WoE ID for Algeciras
   
