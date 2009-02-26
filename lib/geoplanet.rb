@@ -9,7 +9,7 @@ module GeoPlanet
   API_URL     = "http://where.yahooapis.com/#{API_VERSION}/"
     
   class << self
-    attr_accessor :appid
+    attr_accessor :appid, :debug
   end
 
   class BadRequest           < StandardError; end

@@ -63,6 +63,19 @@ but this version supports better usage of matrix and query parameters, uses JSON
   
   # You can specify the language you want for the results.
   a.belongtos(:type => 12, :lang => 'es_ES').first.name  # España
+  
+  a = GeoPlanet::Place.new(752067, :lang => :es)
+  a.country  # España
+
+=== Debug Mode
+
+If you want to look at the requests that are being executed against the Yahoo GeoPlanet API, you can enable the debug mode. It uses the standard output.
+
+  GeoPlanet.debug = true
+  GeoPlanet::Place.new(752067, :lang => :es)
+  # outputs:
+  # Yahoo GeoPlanet: GET http://where.yahooapis.com/v1/place/752067?appid=[your_appid]&format=json&lang=es
+
 
 == REQUIREMENTS:
 

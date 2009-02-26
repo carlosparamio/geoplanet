@@ -14,18 +14,18 @@ module GeoPlanet
     alias_method :lat, :latitude 
     alias_method :lon, :longitude
 
-    def initialize(woe_or_attrs)
+    def initialize(woe_or_attrs, options = {})
       case woe_or_attrs
-      when Integer then initialize_with_woe(woe_or_attrs)
+      when Integer then initialize_with_woe(woe_or_attrs, options)
       when Hash    then initialize_with_attrs(woe_or_attrs)
       else
         raise ArgumentError
       end
     end
     
-    def initialize_with_woe(woe)
-      url = self.class.build_url("place/#{woe}", :format => "json")
-      puts "Yahoo GeoPlanet: GET #{url}"
+    def initialize_with_woe(woe, options = {})
+      url = self.class.build_url("place/#{woe}", options.merge(:format => "json"))
+      puts "Yahoo GeoPlanet: GET #{url}" if GeoPlanet.debug
       initialize_with_attrs JSON.parse(Place.get(url))['place']
     end
     
@@ -75,7 +75,7 @@ module GeoPlanet
       self.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{association}(options = {})
           url = Place.build_url("place/\#{self.woeid}/#{association}", options.merge(:format => "json"))
-          puts "Yahoo GeoPlanet: GET \#{url}"
+          puts "Yahoo GeoPlanet: GET \#{url}" if GeoPlanet.debug
           Place.get_then_parse(url)
         end
       RUBY
@@ -93,7 +93,7 @@ module GeoPlanet
       def search(text, options = {})
         text = URI.encode(text)
         url = build_url('places', options.merge(:q => text, :format => 'json'))
-        puts "Yahoo GeoPlanet: GET #{url}"
+        puts "Yahoo GeoPlanet: GET #{url}" if GeoPlanet.debug
         get_then_parse(url)
       end
       

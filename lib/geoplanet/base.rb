@@ -10,7 +10,7 @@ module GeoPlanet
 
         query_params[:appid] ||= GeoPlanet.appid # use default appid if not provided
 
-        raise ArgumentError if query_params[:appid].nil? || resource_path == 'places' && filters[:q].nil? # required
+        raise ArgumentError, "appid or q filter missing" if query_params[:appid].nil? || resource_path == 'places' && filters[:q].nil? # required
 
         q = ".q('#{filters[:q]}')" if filters[:q]
         type = ".type('#{filters[:type].is_a?(Array) ? filters[:type].to_a.join(',') : filters[:type]}')" if filters[:type]
@@ -28,11 +28,9 @@ module GeoPlanet
       def get(url)
         RestClient.get(url)
       rescue RestClient::RequestFailed
-        raise BadRequest, "appid or q filter invalid"
+        raise BadRequest, "appid, q filter or format invalid"
       rescue RestClient::ResourceNotFound
         raise NotFound, "woeid or URI invalid"
-      rescue RestClient::RequestFailed
-        raise NotAcceptable, "format invalid"
       end
 
       protected
