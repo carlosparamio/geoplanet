@@ -13,7 +13,7 @@ module GeoPlanet
         raise ArgumentError, "appid or q filter missing" if query_params[:appid].nil? || resource_path == 'places' && filters[:q].nil? # required
 
         q = ".q('#{filters[:q]}')" if filters[:q]
-        type = ".type('#{filters[:type].is_a?(Array) ? filters[:type].to_a.join(',') : filters[:type]}')" if filters[:type]
+        type = ".type('#{filters[:type]}')" if filters[:type]
         
         query_string = q && type ? "$and(#{q},#{type})" : "#{q}#{type}"
         
@@ -58,7 +58,8 @@ module GeoPlanet
       
       def extract_filters(options)
         filters = %w(q type)
-        Hash[*(options.select{|k,v| filters.include?(k.to_s)}).flatten(1)]
+        options[:type] = options[:type].join(",") if options[:type].is_a?(Array)
+        Hash[*(options.select{|k,v| filters.include?(k.to_s)}).flatten]
       end
       
       def extract_matrix_params(options)
