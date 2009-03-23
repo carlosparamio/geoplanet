@@ -66,6 +66,12 @@ but this version supports better usage of matrix and query parameters, uses JSON
   
   a = GeoPlanet::Place.new(752067, :lang => :es)
   a.country  # España
+  
+  # It is also possible to query for any association directly using a WOE ID, without
+  # create a Place object. Append a '_of' suffix to the association name to build the
+  # method name to execute. The first argument is the WOE ID.
+  
+  GeoPlanet::Place.belongtos_of(752067, :type => [12, 9])
 
 === Debug Mode
 

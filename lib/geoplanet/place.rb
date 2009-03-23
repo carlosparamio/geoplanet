@@ -14,6 +14,34 @@ module GeoPlanet
     alias_method :lat, :latitude 
     alias_method :lon, :longitude
 
+    # Class methods
+    def self.search(text, options = {})
+      text = URI.encode(text)
+      url = build_url('places', options.merge(:q => text, :format => 'json'))
+      puts "Yahoo GeoPlanet: GET #{url}" if GeoPlanet.debug
+      get_then_parse(url)
+    end
+    
+    def self.get_then_parse(url)
+      results = JSON.parse get(url)
+      return results['places']['place'].map{|attrs| Place.new attrs} if results['places']
+      return Place.new(results['place']) if results['place']
+      nil
+    rescue
+      nil
+    end
+
+    %w(parent ancestors belongtos neighbors siblings children).each do |association|
+      self.instance_eval <<-RUBY, __FILE__, __LINE__ + 1
+        def self.#{association}_of(woeid, options = {})
+          url = build_url("place/\#{woeid}/#{association}", options.merge(:format => "json"))
+          puts "Yahoo GeoPlanet: GET \#{url}" if GeoPlanet.debug
+          get_then_parse(url)
+        end
+      RUBY
+    end
+    
+    # Instance methods
     def initialize(woe_or_attrs, options = {})
       case woe_or_attrs
       when Integer then initialize_with_woe(woe_or_attrs, options)
@@ -74,9 +102,7 @@ module GeoPlanet
     %w(parent ancestors belongtos neighbors siblings children).each do |association|
       self.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{association}(options = {})
-          url = Place.build_url("place/\#{self.woeid}/#{association}", options.merge(:format => "json"))
-          puts "Yahoo GeoPlanet: GET \#{url}" if GeoPlanet.debug
-          Place.get_then_parse(url)
+          Place.send("#{association}_of", self.woeid, options)
         end
       RUBY
     end
@@ -89,22 +115,5 @@ module GeoPlanet
       self.woeid.to_i
     end
     
-    class << self
-      def search(text, options = {})
-        text = URI.encode(text)
-        url = build_url('places', options.merge(:q => text, :format => 'json'))
-        puts "Yahoo GeoPlanet: GET #{url}" if GeoPlanet.debug
-        get_then_parse(url)
-      end
-      
-      def get_then_parse(url)
-        results = JSON.parse get(url)
-        return results['places']['place'].map{|attrs| Place.new attrs} if results['places']
-        return Place.new(results['place']) if results['place']
-        nil
-      rescue
-        nil
-      end
-    end
   end
 end
