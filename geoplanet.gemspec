@@ -5,9 +5,7 @@ Gem::Specification.new do |s|
   s.summary  = "A Ruby wrapper for the Yahoo! GeoPlanet API."
   s.email    = "carlosparamio@gmail.com"
   s.homepage = "http://github.com/carlosparamio/geoplanet/"
-  s.description = "A Ruby wrapper for the Yahoo! GeoPlanet API.
-                   It uses JSON format by default to minimize bandwidth usage.
-                   See http://developer.yahoo.com/geo/ for more information about the API."
+  s.description = "A Ruby wrapper for the Yahoo! GeoPlanet API. It uses JSON format by default to minimize bandwidth usage. See http://developer.yahoo.com/geo/ for more information about the API."
   s.authors  = ["Carlos Paramio"]
   
   s.files    = [
