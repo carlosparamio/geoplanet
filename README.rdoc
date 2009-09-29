@@ -100,7 +100,7 @@ ActiveSupport::JSON instead.
 
 == INSTALL:
 
-* gem install carlosparamio-geoplanet --source http://gems.github.com
+  gem install carlosparamio-geoplanet --source http://gems.github.com
 
 == LICENSE:
 
