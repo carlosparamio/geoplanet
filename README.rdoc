@@ -93,10 +93,6 @@ Additionally, geoplanet has the following gem dependencies:
 * rest-client >= 0.9
 * json >= 1.1.3
 
-Please note that if you have ActiveSupport::JSON defined (either by
-manually having loaded it or when you use geoplanet within a Rails
-application) the json dependency will be ignored and geoplanet uses
-ActiveSupport::JSON instead.
 
 == INSTALL:
 
@@ -126,7 +122,3 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-== CONTRIBUTORS:
-
-Nielsomat <http://github.com/Nielsomat> : Usage of ActiveSupport::JSON when available
