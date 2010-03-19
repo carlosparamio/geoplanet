@@ -23,7 +23,7 @@ module GeoPlanet
     end
     
     def self.get_then_parse(url)
-      results = JSON.parse get(url)
+      results = JSON.parse get(url).to_s
       return results['places']['place'].map{|attrs| Place.new attrs} if results['places']
       return Place.new(results['place']) if results['place']
       nil
