@@ -3,6 +3,12 @@
 A Ruby wrapper for the Yahoo! GeoPlanet APIs. It's inspired on Mattt Thompson's yahoo-geoplanet gem,
 but this version supports better usage of matrix and query parameters, uses JSON for API communication to minimize bandwidth usage, supports both short & long versions of a place, and supports multiple languages.
 
+
+== INSTALL:
+
+  gem install geoplanet
+
+
 == Usage
 
 === Searching for a Location:
@@ -98,10 +104,6 @@ Additionally, geoplanet has the following gem dependencies:
 * rest-client >= 0.9
 * json >= 1.1.3
 
-
-== INSTALL:
-
-  gem install carlosparamio-geoplanet --source http://gems.github.com
 
 == LICENSE:
 
