@@ -11,6 +11,7 @@ module GeoPlanet
     attr_reader  :admin3, :admin3_code, :admin3_placetype
     attr_reader  :locality1, :locality1_placetype
     attr_reader  :locality2, :locality2_placetype
+    attr_reader  :pop_rank, :area_rank
     alias_method :lat, :latitude 
     alias_method :lon, :longitude
 
@@ -94,6 +95,8 @@ module GeoPlanet
         @locality1_placetype = attrs['locality1 attrs']['type'] rescue nil
         @locality2           = attrs['locality2']
         @locality2_placetype = attrs['locality2 attrs']['type'] rescue nil
+        @pop_rank            = attrs['popRank']
+        @area_rank           = attrs['areaRank']                
       end
       self
     end
