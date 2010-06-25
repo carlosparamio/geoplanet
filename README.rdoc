@@ -44,6 +44,11 @@ but this version supports better usage of matrix and query parameters, uses JSON
                      # Latitude and Longitude are values at Centroid
   a.bounding_box     # [[36.109779, -5.47725], [36.164268, -5.43527]]
                      # Bounding box are SW / NE coordinates in array
+  a.pop_rank         # 11
+                     # Code representing population size
+  a.area_rank        # 4
+                     # Code representing the size of the place
+                     # See codes at http://developer.yahoo.com/geo/geoplanet/guide/api_docs.html
   
   # We unlock the true power of GeoPlanet with association collections
   # Check out this truly amazing stuff:
