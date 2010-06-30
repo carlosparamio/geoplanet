@@ -118,5 +118,9 @@ module GeoPlanet
       self.woeid.to_i
     end
     
+    def inspect
+      "#<GeoPlanet::Place #{instance_variables.map{|ivar| "#{ivar}: #{instance_variable_get(ivar).inspect}"}.join(', ')}>"
+    end
+    
   end
 end
