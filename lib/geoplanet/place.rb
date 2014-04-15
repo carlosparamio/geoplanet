@@ -12,7 +12,7 @@ module GeoPlanet
     attr_reader  :locality1, :locality1_placetype
     attr_reader  :locality2, :locality2_placetype
     attr_reader  :pop_rank, :area_rank
-    alias_method :lat, :latitude 
+    alias_method :lat, :latitude
     alias_method :lon, :longitude
 
     # Class methods
@@ -22,7 +22,7 @@ module GeoPlanet
       puts "Yahoo GeoPlanet: GET #{url}" if GeoPlanet.debug
       get_then_parse(url)
     end
-    
+
     def self.get_then_parse(url)
       results = JSON.parse get(url).to_s
       return results['places']['place'].map{|attrs| Place.new attrs} if results['places']
@@ -32,7 +32,7 @@ module GeoPlanet
       nil
     end
 
-    %w(parent ancestors belongtos neighbors siblings children).each do |association|
+    %w(parent ancestors belongtos neighbors siblings children descendants).each do |association|
       self.instance_eval <<-RUBY, __FILE__, __LINE__ + 1
         def self.#{association}_of(woeid, options = {})
           url = build_url("place/\#{woeid}/#{association}", options.merge(:format => "json"))
@@ -41,7 +41,7 @@ module GeoPlanet
         end
       RUBY
     end
-    
+
     # Instance methods
     def initialize(woe_or_attrs, options = {})
       case woe_or_attrs
@@ -51,14 +51,14 @@ module GeoPlanet
         raise ArgumentError
       end
     end
-    
+
     def initialize_with_woe(woe, options = {})
       url = self.class.build_url("place/#{woe}", options.merge(:format => "json"))
       puts "Yahoo GeoPlanet: GET #{url}" if GeoPlanet.debug
       initialize_with_attrs JSON.parse(Place.get(url))['place']
     end
-    
-    
+
+
     def initialize_with_attrs(attrs)
       @version = attrs['centroid'] ? 'long' : 'short'
 
@@ -96,31 +96,31 @@ module GeoPlanet
         @locality2           = attrs['locality2']
         @locality2_placetype = attrs['locality2 attrs']['type'] rescue nil
         @pop_rank            = attrs['popRank']
-        @area_rank           = attrs['areaRank']                
+        @area_rank           = attrs['areaRank']
       end
       self
     end
 
     # Association Collections
-    %w(parent ancestors belongtos neighbors siblings children).each do |association|
+    %w(parent ancestors belongtos neighbors siblings children descendants).each do |association|
       self.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{association}(options = {})
           Place.send("#{association}_of", self.woeid, options)
         end
       RUBY
     end
-    
+
     def to_s
       self.name
     end
-    
+
     def to_i
       self.woeid.to_i
     end
-    
+
     def inspect
       "#<GeoPlanet::Place #{instance_variables.map{|ivar| "#{ivar}: #{instance_variable_get(ivar).inspect}"}.join(', ')}>"
     end
-    
+
   end
 end
