@@ -15,28 +15,31 @@ but this version supports better usage of matrix and query parameters, uses JSON
 
   require 'geoplanet'
   GeoPlanet.appid = [Your App ID Here]
-  
+
   # Search for places that matches "Springfield" (the API returns 1 by default)
   GeoPlanet::Place.search("Springfield")
-  
+
   # Search for *all* places that matches "Springfield"
   GeoPlanet::Place.search("Springfield", :count => 0)
-  
+
+  # Search for "Toronto" with focus on "Canada"
+  GeoPlanet::Place.search("Toronto", :focus => "ca")
+
   # You can pass in any Matrix or Query parameters this way too
   # For more details see the following URLs:
   # http://developer.yahoo.com/geo/guide/resources_and_collections.html#matrix_parameters
   # http://developer.yahoo.com/geo/guide/resources_and_collections.html#query_parameters
-  
+
 === Initializing by Where On Earth ID && Associations
-  
+
   require 'geoplanet'
   GeoPlanet.appid = [Your App ID Here]
-  
+
   a = GeoPlanet::Place.new(752067) # WoE ID for Algeciras
-  
+
   # Everything you get back from the API you have direct access to
   # through the Place object. For example:
-  
+
   a.version          # "long"
   a.placetype        # "Town"
   a.placetype_code   # 7
@@ -55,33 +58,36 @@ but this version supports better usage of matrix and query parameters, uses JSON
   a.area_rank        # 4
                      # Code representing the size of the place
                      # See codes at http://developer.yahoo.com/geo/geoplanet/guide/api_docs.html
-  
+
   # We unlock the true power of GeoPlanet with association collections
   # Check out this truly amazing stuff:
-  
+
   # A list of other towns in the area
   a.siblings
-  
+
   # A complete hierarchy, from country down to municipality
   a.ancestors
 
+  # All descendants for a location
+  a.descendants(count: 0)
+
   # Postal Codes at Algeciras
   a.children(:select => "long", :type => 11)
-  
+
   # You can use multiple types on the same query.
   # e.g. Country and Province for Algeciras
   a.belongtos(:type => [12, 9])
-  
+
   # You can specify the language you want for the results.
   a.belongtos(:type => 12, :lang => 'es_ES').first.name  # España
-  
+
   a = GeoPlanet::Place.new(752067, :lang => :es)
   a.country  # España
-  
+
   # It is also possible to query for any association directly using a WOE ID, without
   # create a Place object. Append a '_of' suffix to the association name to build the
   # method name to execute. The first argument is the WOE ID.
-  
+
   GeoPlanet::Place.belongtos_of(752067, :type => [12, 9])
 
 === Debug Mode
@@ -96,7 +102,7 @@ If you want to look at the requests that are being executed against the Yahoo Ge
 
 == REQUIREMENTS:
 
-To use this library, you must have a valid Yahoo! App ID. 
+To use this library, you must have a valid Yahoo! App ID.
 You can get one at http://developer.yahoo.com/wsregapp/
 
 Additionally, geoplanet has the following gem dependencies:
