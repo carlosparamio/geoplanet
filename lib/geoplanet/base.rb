@@ -12,7 +12,11 @@ module GeoPlanet
 
         raise ArgumentError, "appid or q filter missing" if query_params[:appid].nil? || resource_path == 'places' && filters[:q].nil? # required
 
-        q = ".q('#{filters[:q]}')" if filters[:q]
+        if filters[:q]
+          query = [filters[:q], filters[:focus]].compact.map { |t| "'#{t}'" }.join(',')
+          q = ".q(#{query})"
+        end
+
         type = ".type('#{filters[:type]}')" if filters[:type]
 
         query_string = q && type ? "$and(#{q},#{type})" : "#{q}#{type}"
@@ -37,7 +41,7 @@ module GeoPlanet
       def supported_options_for(resource_path)
         case resource_path
         when 'places'
-          %w(q type start count lang format callback select appid)
+          %w(q type start count lang format callback select appid focus)
         when /^place\/\d+\/parent$/, /^place\/\d+\/ancestors$/, /^place\/\d+$/, 'placetype'
           %w(lang format callback select appid)
         when /^place\/\d+\/belongtos$/, /^place\/\d+\/children$/, /^place\/\d+\/descendants$/, 'placetypes'
@@ -57,7 +61,7 @@ module GeoPlanet
       end
 
       def extract_filters(options)
-        filters = %w(q type degree)
+        filters = %w(q focus type degree)
         options[:type] = options[:type].join(",") if options[:type].is_a?(Array)
         Hash[*(options.select{|k,v| filters.include?(k.to_s)}).flatten]
       end
