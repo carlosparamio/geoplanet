@@ -1,3 +1,5 @@
+{<img src="https://badge.fury.io/rb/geoplanet.svg" alt="Gem Version" />}[http://badge.fury.io/rb/geoplanet]
+
 = geoplanet
 
 A Ruby wrapper for the Yahoo! GeoPlanet APIs. It's inspired on Mattt Thompson's yahoo-geoplanet gem,
