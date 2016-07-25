@@ -7,12 +7,12 @@ require 'geoplanet/place'
 module GeoPlanet
   API_VERSION = "v1"
   API_URL     = "http://where.yahooapis.com/#{API_VERSION}/"
-    
+
   class << self
     attr_accessor :appid, :debug
   end
 
-  class BadRequest           < StandardError; end
-  class NotFound             < StandardError; end
-  class NotAcceptable        < StandardError; end
+  class BadRequest    < StandardError; end
+  class NotFound      < StandardError; end
+  class NotAcceptable < StandardError; end
 end

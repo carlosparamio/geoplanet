@@ -37,7 +37,8 @@ module GeoPlanet
         raise NotFound, "woeid or URI invalid"
       end
 
-      protected
+    protected
+
       def supported_options_for(resource_path)
         case resource_path
         when 'places'
